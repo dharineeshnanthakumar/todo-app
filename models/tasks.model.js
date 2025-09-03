@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
-const tasks = mongoose.Schema({
-  id: { type: Number, required: true, unique: true },
+const tasksSchema = mongoose.Schema({
   task: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Tasks", tasks);
+tasksSchema.plugin(AutoIncrement, { inc_field: "id" });
+
+const Tasks = mongoose.model("Tasks", tasksSchema);
+
+module.exports = { Tasks };
