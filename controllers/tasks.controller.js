@@ -4,8 +4,8 @@ const { Tasks } = require("../models/tasks.model");
 //@route GET /
 const getTasks = async (req, res) => {
   const tasksDoc = await Tasks.find();
-  const task = tasksDoc.map(({ id, task }) => ({ id, task }));
-  res.json(task);
+  const tasks = tasksDoc.map(({ id, task }) => ({ id, task }));
+  res.json({ tasks });
 };
 
 //@desc add a task
@@ -13,8 +13,9 @@ const addTask = async (req, res) => {
   const { task } = req.body;
   const newTask = new Tasks({ task });
   const savedTask = await newTask.save();
-  res.json(savedTask);
+  res.redirect('/');
 };
+
 //@desc done a task
 const completedTask = async (req, res) => {
   const id = req.params;
